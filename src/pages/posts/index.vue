@@ -15,7 +15,7 @@
         <span></span>
     </div>
     <div class="posts-wrapper" v-else>
-        <router-link :to="`/posts/${post.id}`" class="card" v-for="post in posts" :key="post.id">
+        <router-link v-for="post in posts" :to="`/posts/${post.id}`" class="card" :key="post.id">
             <h2>{{ post.title }}</h2>
             <span class="post-id" >PostID: {{ post.id }}</span>
             <br>
@@ -121,18 +121,21 @@ span
 import { api } from '@/api/axios';
 import { ref, watch } from 'vue';
 
-const usersList = ref<[]>([]);
+const usersList = ref<number[]>([]);
 const postLoading = ref<boolean>(true)
 
 const filter = ref<{
-    userId: number | undefined;
-}>({
-    userId: undefined
-})
+    userId?: number | undefined;
+}>({})
 
 
 
-const posts = ref<[]>([])
+const posts = ref<{
+    id: number | undefined,
+    userId: number | undefined,
+    title: string | undefined,
+    body: string | undefined,
+}[]>([])
 
 function fetchPosts(){
     api.get('posts', {
@@ -140,7 +143,7 @@ function fetchPosts(){
     }).then((response) => {
         posts.value = response.data
         if (usersList.value.length === 0) {
-            usersList.value = [...new Set(response.data.map((item: any) => item.userId))];
+            usersList.value = [...new Set<number>(response.data.map((item: any) => item.userId))];
         }
         postLoading.value = false;
     })

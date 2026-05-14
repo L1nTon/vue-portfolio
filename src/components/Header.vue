@@ -1,3 +1,26 @@
+
+<script setup lang="ts">
+
+defineOptions({
+    name: 'Header'
+})
+
+import {ref, onMounted, onUnmounted} from 'vue';
+
+const isScrolled = ref(false)
+
+function handleScroll() {
+    isScrolled.value = window.scrollY > 0;
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+})
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+})
+
+</script>
 <template>
     <header :class="{scrolled: isScrolled}">
         <div class="wrapper">
@@ -59,22 +82,3 @@ nav a.router-link-exact-active {
 }
 </style>
 
-
-<script setup lang=""ts>
-
-import {ref, onMounted, onUnmounted} from 'vue';
-
-const isScrolled = ref(false)
-
-function handleScroll() {
-    isScrolled.value = window.scrollY > 0;
-}
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll);
-})
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-})
-
-</script>

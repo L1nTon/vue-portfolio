@@ -139,7 +139,13 @@ import { api } from '@/api/axios';
 const route = useRoute();
 const postId = ref<number>(0);
 const post = ref<any>(null);
-const comments = ref<[]>(null);
+const comments = ref<{
+    postId: number | undefined,
+    id: number | undefined,
+    name: string | undefined,
+    email: string | undefined,
+    body: string | undefined
+}[]>([]);
 
 postId.value = Number(route.params.id);
 
